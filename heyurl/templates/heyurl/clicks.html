@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HeyURL!</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'heyurl/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'heyurl/style.css' %}">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-sm-4">
+      <a class="navbar-brand" href="#">HeyURL!</a>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-8 offset-sm-2">
+          <div class="card mb-sm-4">
+            <div class="card-header">
+              Current Clicks count
+            </div>
+            <div class="card-body">
+              {% if browsers %}
+                {% load humanize %}
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Total Count</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        <td>{{ click_amount }}</td>
+                        <td><a href="#">
+                          <svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path>
+                          </svg>
+                        </a></td>
+                      </tr>
+                  </tbody>
+                </table>
+              {% else %}
+              <div class="alert alert-light" role="alert">
+                There are no Clicks in the system yet!
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+        <div class="col-8 offset-sm-2">
+          <div class="card mb-sm-4">
+            <div class="card-header">
+              Current Clicks count by Browser
+            </div>
+            <div class="card-body">
+              {% if browsers %}
+                {% load humanize %}
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Browser</th>
+                      <th scope="col">Count</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for browser in browsers %}
+                      <tr>
+                        <td>{{ browser.browser }}</td>
+                        <td>{{ browser.browser_count }}</td>
+                        <td><a href="#">
+                          <svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path>
+                          </svg>
+                        </a></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+              <div class="alert alert-light" role="alert">
+                There are no Clicks in the system yet!
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+        <div class="col-8 offset-sm-2">
+          <div class="card mb-sm-4">
+            <div class="card-header">
+              Current Clicks count by Platform
+            </div>
+            <div class="card-body">
+              {% if platforms %}
+                {% load humanize %}
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Browser</th>
+                      <th scope="col">Count</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for platform in platforms %}
+                      <tr>
+                        <td>{{ platform.platform }}</td>
+                        <td>{{ platform.platform_count }}</td>
+                        <td><a href="#">
+                          <svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path>
+                          </svg>
+                        </a></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+              <div class="alert alert-light" role="alert">
+                There are no Clicks in the system yet!
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
