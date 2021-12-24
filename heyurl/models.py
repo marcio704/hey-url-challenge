@@ -1,7 +1,7 @@
 import logging
 import random, string
 
-from django.db import models, InternalError
+from django.db import models, IntegrityError
 
 from heyurl.managers import ClickQueryset
 
@@ -16,17 +16,43 @@ class Url(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def to_dict(self):
+        url_json_response = {
+            "type": "urls",
+            "id": self.id,
+            "attributes": {
+                "created-at": str(self.created_at),
+                "original-url": str(self.original_url),
+                "url": str(self.short_url),
+                "clicks": self.clicks_count
+            },
+            "relationships": {
+                "metrics": {
+                    "data": []
+                }
+            }
+        }
+        for click in self.clicks.all():
+            click_json_response = {
+                "id": click.id,
+                "type": "click"
+            }
+            url_json_response['relationships']['metrics']['data'].append(click_json_response)
+
+        return url_json_response
+
     @classmethod
     def create(cls, original_url):
         success = False
         while not success:
             try:
-                return Url.objects.create(
+                url = Url.objects.create(
                     short_url=cls.create_short_url(),
                     original_url=original_url,
                 )
                 success = True
-            except InternalError:
+                return url
+            except IntegrityError:
                 logging.warning('Could not create URL for short_url {}, it already exists in the database')
 
     @classmethod
